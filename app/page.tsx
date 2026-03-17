@@ -2,9 +2,11 @@
 
 import AIAnalysisPanel from "@/components/AIAnalysisPanel";
 import Navbar from "@/components/Navbar";
+import Footer from "@/sections/Footer";
 import Heading from "@/sections/Heading";
 import Hero from "@/sections/Hero";
-import { div } from "framer-motion/client";
+import Testimonials from "@/sections/Testimonials";
+
 import { useState } from "react";
 
 
@@ -36,6 +38,7 @@ export default function Home() {
         setAtsScore={setAtsScore}
         setKeywordMatch={setKeywordMatch}
         setSkillGap={setSkillGap}
+        isSubscribed={isSubscribed}
       />
 
       <AIAnalysisPanel 
@@ -53,7 +56,8 @@ export default function Home() {
           >Upgrade to Pro</button>
         </div>
       )}
-      
+      <Testimonials/>
+      <Footer/>      
     </main>
   );
 }
