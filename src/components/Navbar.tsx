@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Navbar() {
   const [isFeaturesOpen, setIsFeaturesOpen] = useState(false);
@@ -12,21 +13,25 @@ export default function Navbar() {
       img: "/resume6.jpg",
       title: "Resume Builder",
       desc: "Build professional resumes easily with AI suggestions.",
+      href:"/resume-builder",
     },
     {
       img: "/salary.jpg",
       title: "AI Salary Match",
       desc: "Get matched with the best-paying jobs using AI insights.",
+      href:"/salary-match",
     },
     {
       img: "/interview.jpg",
       title: "Interview Prep",
       desc: "Practice AI-powered interview questions and answers.",
+      href:"/interview-prep",
     },
     {
       img: "/careerpath.jpg",
       title: "Career Path Guidance",
       desc: "Discover the best career path tailored to your skills.",
+      href:"/career-path",
     },
   ];
 
@@ -88,7 +93,7 @@ export default function Navbar() {
                 {features.map((feature, idx) => (
                   <a
                     key={feature.title}
-                    href="#"
+                    href={feature.href}
                     className={`flex items-start gap-4 p-3 rounded-xl transition transform hover:scale-105 hover:shadow-lg ${
                       isFeaturesOpen
                         ? "opacity-100 translate-y-0"
@@ -117,10 +122,10 @@ export default function Navbar() {
               </div>
             </div>
           </div>
-          <a href="#" className="hover:text-blue-700 transition">
+          <a href="/about" className="hover:text-blue-700 transition">
             How it works
           </a>
-          <a href="#" className="hover:text-blue-700 transition">
+          <a href="/pricing" className="hover:text-blue-700 transition">
             Pricing
           </a>
         </div>
@@ -172,7 +177,7 @@ export default function Navbar() {
               {features.map((feature, idx) => (
                 <a
                   key={feature.title}
-                  href="#"
+                  href={feature.href}
                   className="flex items-center gap-3 transition transform hover:translate-x-1 duration-200  hover:text-blue-900"
                 >
                   <Image src={feature.img} alt={feature.title} width={30} height={30} />
@@ -182,18 +187,18 @@ export default function Navbar() {
             </div>
           )}
 
-          <a
-            href="#"
+          <Link
+            href="/about"
             className="font-medium text-gray-700 transition transform hover:translate-x-1 duration-200  hover:text-blue-900"
           >
             How it works
-          </a>
-          <a
-            href="#"
+          </Link>
+          <Link
+            href="/pricing"
             className="font-medium text-gray-700 transition transform hover:translate-x-1 duration-200  hover:text-blue-900"
           >
             Pricing
-          </a>
+          </Link>
           <button className="bg-blue-600 hover:bg-green-700 text-white py-3 rounded-xl font-semibold mt-4 w-full hover:scale-105 transition-transform duration-200">
             Get Started
           </button>

@@ -1,10 +1,10 @@
 "use client"
-import { motion } from "framer-motion"
+import Link from "next/link"
 
 export default function Footer() {
   return (
     <footer className="relative bg-[#F8FAFC] pt-24 pb-12 overflow-hidden border-t border-gray-200">
-      {/* Subtle Mesh Background for a "Silver" depth */}
+      
       <div className="absolute inset-0 z-0 opacity-40">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_-20%,#E2E8F0,transparent_70%)]" />
       </div>
@@ -40,7 +40,7 @@ export default function Footer() {
               Precision-engineered career optimization. Turning raw experience into recruiter-grade narratives.
             </p>
             
-            {/* Minimalist Silver Input */}
+            
             <div className="mt-8 flex max-w-md bg-white border border-slate-200 rounded-2xl p-1.5 shadow-sm focus-within:ring-2 focus-within:ring-emerald-500/20 transition-all">
               <input 
                 type="email" 
@@ -57,27 +57,27 @@ export default function Footer() {
           <div className="md:col-span-2 md:col-start-7">
             <h3 className="text-slate-900 font-bold text-xs uppercase tracking-[0.15em] mb-6">Product</h3>
             <ul className="space-y-4 text-slate-500 text-sm font-medium">
-              <li className="hover:text-emerald-600 transition-colors cursor-pointer">Resume Audit</li>
-              <li className="hover:text-emerald-600 transition-colors cursor-pointer">Skill Analysis</li>
-              <li className="hover:text-emerald-600 transition-colors cursor-pointer">Salary Data</li>
-              <li className="hover:text-emerald-600 transition-colors cursor-pointer">Pricing</li>
+              <li><Link href="/resume-builder" className="hover:text-emerald-600 transition-colors cursor-pointer">Resume Builder</Link></li>
+              <li><Link href="/interview-prep" className="hover:text-emerald-600 transition-colors cursor-pointer">Interview Prep</Link></li>
+              <li><Link href="/salary-match"className="hover:text-emerald-600 transition-colors cursor-pointer">Salary Data</Link></li>
+              <li><Link href="/pricing" className="hover:text-emerald-600 transition-colors cursor-pointer">Pricing</Link></li>
             </ul>
           </div>
 
           <div className="md:col-span-2">
             <h3 className="text-slate-900 font-bold text-xs uppercase tracking-[0.15em] mb-6">Company</h3>
             <ul className="space-y-4 text-slate-500 text-sm font-medium">
-              <li className="hover:text-emerald-600 transition-colors cursor-pointer">Our Mission</li>
-              <li className="hover:text-emerald-600 transition-colors cursor-pointer">Privacy</li>
-              <li className="hover:text-emerald-600 transition-colors cursor-pointer">Terms</li>
-              <li className="hover:text-emerald-600 transition-colors cursor-pointer">Security</li>
+              <li><Link href="/about" className="hover:text-emerald-600 transition-colors cursor-pointer">Our Mission</Link></li>
+              <li><Link href="/privacy" className="hover:text-emerald-600 transition-colors cursor-pointer">Privacy</Link></li>
+              <li><Link href="/terms" className="hover:text-emerald-600 transition-colors cursor-pointer">Terms</Link></li>
+              <li><Link href="/#" className="hover:text-emerald-600 transition-colors cursor-pointer">Security</Link></li>
             </ul>
           </div>
 
           <div className="md:col-span-2">
             <h3 className="text-slate-900 font-bold text-xs uppercase tracking-[0.15em] mb-6">Connect</h3>
             <div className="flex gap-3">
-              {[ '𝕏', 'in', 'gh' ].map((social) => (
+              {[ '𝕏', 'in', 'gh','f','gmail' ].map((social) => (
                 <div key={social} className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center hover:border-emerald-500 hover:bg-emerald-50 cursor-pointer transition-all shadow-sm">
                   <span className="text-slate-900 font-bold text-xs">{social}</span>
                 </div>
