@@ -174,7 +174,7 @@ export default function Navbar() {
 
           {isFeaturesOpen && (
             <div className="flex flex-col gap-4 pl-2">
-              {features.map((feature, idx) => (
+              {features.map((feature,) => (
                 <a
                   key={feature.title}
                   href={feature.href}

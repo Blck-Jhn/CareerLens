@@ -1,15 +1,24 @@
+// import type { NextConfig } from "next";
+
+// const nextConfig: NextConfig = {
+//   experimental: {
+//     turbo: {
+//       resolveAlias: {
+//         canvas: "./empty-module.js",
+//       },
+//     },
+//   },
+// };
+
+// export default nextConfig;
+
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  experimental: {
-    turbo: {
-      resolveAlias: {
-        // This stops the 'require("canvas")' error during the build
-        canvas: './empty-module.js' , 
-      },
-    },
+  webpack: (config) => {
+    config.resolve.alias.canvas = false;
+    return config;
   },
-  experimental:{},
 };
 
 export default nextConfig;

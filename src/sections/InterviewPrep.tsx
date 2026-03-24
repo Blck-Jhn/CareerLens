@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { MessageSquare, Play, ShieldCheck, Zap, ArrowRight, BrainCircuit, RefreshCw } from "lucide-react"
+import { MessageSquare, Play, ShieldCheck, Zap, ArrowRight, RefreshCw } from "lucide-react"
 
 export default function InterviewPrep() {
  

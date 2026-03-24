@@ -1,5 +1,5 @@
 "use client"
-import { motion } from "framer-motion"
+import { Easing, motion } from "framer-motion"
 import { Target, Zap, Shield, BarChart3, ArrowUpRight } from "lucide-react"
 
 export default function About() {
@@ -7,7 +7,7 @@ export default function About() {
     initial: { opacity: 0, y: 30 },
     whileInView: { opacity: 1, y: 0 },
     viewport: { once: true },
-    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as Easing }
   }
 
   return (
@@ -93,7 +93,7 @@ export default function About() {
               </h2>
               <p className="text-gray-900 text-lg leading-relaxed max-w-xl">
                 In a world of noise, clarity is the ultimate luxury. We built CareerLens to provide 
-                high-fidelity career optimization for developers who demand more than "templates."
+                high-fidelity career optimization for developers who demand more than &quot;templates.&quot;
               </p>
             </motion.div>
 

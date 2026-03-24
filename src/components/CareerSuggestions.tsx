@@ -4,8 +4,7 @@ interface Props {
 }
 
 export default function CareerSuggestions({
-  keywordMatch,
-  skillGap
+   skillGap
 }: Props) {
 
   const roles = [

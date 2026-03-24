@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { BarChart, DollarSign, Search, Briefcase, Info, ArrowRight } from "lucide-react"
+import { DollarSign, Search, Briefcase, Info, ArrowRight } from "lucide-react"
 
 export default function SalaryMatch() {
   const [isAnalyzing, setIsAnalyzing] = useState(false)

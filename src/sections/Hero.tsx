@@ -2,6 +2,8 @@
 import { useState, useRef } from "react"
 import { motion } from "framer-motion"
 import Tesseract from "tesseract.js"
+import { TextItem } from "pdfjs-dist/types/src/display/api"
+
 
 
 interface Props {
@@ -70,80 +72,85 @@ export default function Hero({
   }
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file || typeof window === 'undefined') return // Safety check
-   
-    setFileName(file.name)
-    setResumeUploaded(true)
-    setScanning(true)
-    setScanProgress(10)
+  const file = e.target.files?.[0]
+  if (!file || typeof window === "undefined") return
 
-    const reader = new FileReader()
-    reader.onload = async function () {
-      try {
-        // Use the legacy-style entry point specifically to avoid the canvas factory
-        const pdfjs = await import("pdfjs-dist/build/pdf.mjs");
-        
-        // Link worker via unpkg
-        pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+  setFileName(file.name)
+  setResumeUploaded(true)
+  setScanning(true)
+  setScanProgress(10)
 
-        const typedArray = new Uint8Array(this.result as ArrayBuffer)  
-        
-        const loadingTask = pdfjs.getDocument({ 
-            data: typedArray,
-            // These flags prevent PDF.js from even LOOKING for canvas/node features
-            disableFontFace: true,
-            isEvalSupported: false,
-            useSystemFonts: true
-        });
-     
-        const pdf = await loadingTask.promise
-        let fullText = ""
+  const reader = new FileReader()
 
-        for (let i = 1; i <= pdf.numPages; i++) {
-          const page = await pdf.getPage(i)
-          const content = await page.getTextContent()
-          const pageText = content.items
-            .map((item: any) => item.str || "")
-            .join(" ")
-          fullText += pageText + " "
-          setScanProgress(Math.round((i / pdf.numPages) * 90))
-        }
-        
-        if (!fullText.trim()){
-          console.log("No Text Found -> running OCR...")
-          const ocrText= await runOCR(file)
-          fullText=ocrText
-        }
+  reader.onload = async function () {
+    try {
+      // Import PDF.js with correct type
+      const pdfjs = await import("pdfjs-dist/legacy/build/pdf")
+      pdfjs.GlobalWorkerOptions.workerSrc =
+        `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`
 
-         try {
-          const res = await fetch("/api/analyze", {
-            method: "POST",
-            body: JSON.stringify({ resumeText: fullText }),
-          })
+      const typedArray = new Uint8Array(this.result as ArrayBuffer)
+      const loadingTask = pdfjs.getDocument({
+        data: typedArray,
+        useSystemFonts: true,
+      })
 
-          const data = await res.json()
-          console.log("AI Result:", data.result)
+      const pdf = await loadingTask.promise
 
-        } catch {
-          // fallback if API fails
-          analyzeResume(fullText)
-        }
+      let fullText = ""
 
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i)
+        const content = await page.getTextContent()
 
-        //fallback always set something back
-        analyzeResume(fullText)
-        setScanProgress(100)
-        if (fileInputRef.current) fileInputRef.current.value = ""
-        setTimeout(() => setScanning(false), 500)
-      } catch (error) {
-        console.error("PDF Error:", error)
-        setScanning(false)
+        // Type guard to ensure items are TextItem
+        const pageText = content.items
+          .filter((item): item is TextItem => "str" in item)
+          .map((item) => item.str || "")
+          .join(" ")
+
+        fullText += pageText + " "
+        setScanProgress(Math.round((i / pdf.numPages) * 90))
       }
+
+      // OCR fallback if PDF text extraction fails
+      if (!fullText.trim()) {
+        console.log("No Text Found -> running OCR...")
+        const ocrText = await runOCR(file)
+        fullText = ocrText
+      }
+
+      // Try calling API first
+      let analyzed = false
+      try {
+        const res = await fetch("/api/analyze", {
+          method: "POST",
+          body: JSON.stringify({ resumeText: fullText }),
+        })
+        const data = await res.json()
+        console.log("AI Result:", data.result)
+        analyzed = true
+      } catch {
+        // fallback to local analysis if API fails
+        analyzeResume(fullText)
+      }
+
+      if (!analyzed) {
+        analyzeResume(fullText)
+      }
+
+      setScanProgress(100)
+      if (fileInputRef.current) fileInputRef.current.value = ""
+      setTimeout(() => setScanning(false), 500)
+
+    } catch (error) {
+      console.error("PDF Error:", error)
+      setScanning(false)
     }
-    reader.readAsArrayBuffer(file)
   }
 
+  reader.readAsArrayBuffer(file)
+}
 
   const runDemo = () => {
     setFileName("Demo_Resume.pdf")
